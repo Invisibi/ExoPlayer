@@ -257,7 +257,7 @@ public class MediaCodecAudioTrackRenderer extends MediaCodecTrackRenderer {
       // Make sure we don't ever report time moving backwards.
       currentPositionUs = Math.max(currentPositionUs, audioTrackCurrentPositionUs);
     }
-    return currentPositionUs;
+    return (long) (currentPositionUs * audioTrack.getPlaybackSpeed());
   }
 
   @Override
