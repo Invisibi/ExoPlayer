@@ -517,6 +517,10 @@ public final class AudioTrack {
       }
   }
 
+  public float getPlaybackSpeed() {
+    return speed;
+  }
+
   /** Sets the playback volume. */
   public void setVolume(float volume) {
     this.volume = volume;
