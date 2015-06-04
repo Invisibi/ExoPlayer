@@ -63,8 +63,8 @@ public class MediaCodecAudioTrackRenderer extends MediaCodecTrackRenderer {
 
   private long currentPositionUs;
 
-    public MediaCodecAudioTrackRenderer(SampleSource source, int streamType, float speed) {
-        this(source, null, true);
+    public MediaCodecAudioTrackRenderer(AudioTrack audioTrack, SampleSource source, int streamType, float speed) {
+        this(source, null, true, null, null, audioTrack);
         this.audioTrack.setPlaybackSpeed(speed);
         this.audioTrack.setStreamType(streamType);
     }
