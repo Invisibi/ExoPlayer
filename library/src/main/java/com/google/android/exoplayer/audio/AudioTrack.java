@@ -576,7 +576,9 @@ public final class AudioTrack {
         @Override
         public void run() {
           try {
-            toRelease.release();
+            if(toRelease != null) {
+              toRelease.release();
+            }
           } finally {
             releasingConditionVariable.open();
           }
