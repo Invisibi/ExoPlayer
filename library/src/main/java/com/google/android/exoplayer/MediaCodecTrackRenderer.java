@@ -15,10 +15,6 @@
  */
 package com.google.android.exoplayer;
 
-import com.google.android.exoplayer.drm.DrmSessionManager;
-import com.google.android.exoplayer.util.Assertions;
-import com.google.android.exoplayer.util.Util;
-
 import android.annotation.TargetApi;
 import android.media.MediaCodec;
 import android.media.MediaCodec.CodecException;
@@ -27,6 +23,10 @@ import android.media.MediaCrypto;
 import android.media.MediaExtractor;
 import android.os.Handler;
 import android.os.SystemClock;
+
+import com.google.android.exoplayer.drm.DrmSessionManager;
+import com.google.android.exoplayer.util.Assertions;
+import com.google.android.exoplayer.util.Util;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -286,14 +286,14 @@ public abstract class MediaCodecTrackRenderer extends TrackRenderer {
     String selectedDecoderName = selectedDecoderInfo.name;
     codecIsAdaptive = selectedDecoderInfo.adaptive;
     try {
-        codec = MediaCodec.createByCodecName(selectedDecoderName);
-      // TODO: Need to check if this problem still applies if we use vorbis codec
-//      // Xiaomi default AAC encoder cannot decode. We force use google aac decoder to fix this!
-//      codec = MediaCodec.createByCodecName("OMX.google.aac.decoder");
-//      if (codec == null) {
-//          codec = MediaCodec.createByCodecName(selectedDecoderName);
-//      }
-      configureCodec(codec, format.getFrameworkMediaFormatV16(), mediaCrypto);
+        //if mp4 use OMX.google.aac.decoder
+        if ("audio/mp4a-latm".equals(mimeType)) {
+            codec = MediaCodec.createByCodecName("OMX.google.aac.decoder");
+        }
+        if (codec == null) {
+          codec = MediaCodec.createByCodecName(selectedDecoderName);
+        }
+            configureCodec(codec, format.getFrameworkMediaFormatV16(), mediaCrypto);
       codec.start();
       inputBuffers = codec.getInputBuffers();
       outputBuffers = codec.getOutputBuffers();
