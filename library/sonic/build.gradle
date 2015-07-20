@@ -20,9 +20,6 @@ android {
     defaultConfig {
         minSdkVersion 9
         targetSdkVersion 21
-        ndk {
-            moduleName "sonic"
-        }
     }
 
     buildTypes {
@@ -37,17 +34,3 @@ android {
     }
 }
 
-dependencies {
-    compile project(':sonic');
-}
-
-android.libraryVariants.all { variant ->
-    def name = variant.buildType.name
-    if (name.equals(com.android.builder.core.BuilderConstants.DEBUG)) {
-        return; // Skip debug builds.
-    }
-    def task = project.tasks.create "jar${name.capitalize()}", Jar
-    task.dependsOn variant.javaCompile
-    task.from variant.javaCompile.destinationDir
-    artifacts.add('archives', task);
-}
